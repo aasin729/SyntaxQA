@@ -195,7 +195,29 @@ const IssueDashboard = () => {
     <div>
       <Seo title="이슈 관리 대시보드" />
       {/* 상단 */}
-      <div className="breadcrumb-header justify-content-between mb-3">
+          {/* <!-- breadcrumb --> */}
+    <div className="breadcrumb-header justify-content-between">
+      <div className="left-content">
+        <span className="main-content-title mg-b-0 mg-b-lg-1">이슈 관리</span>
+        <p>테스트 활동 중 발견된 이슈를 관리하고 해결 상태를 추적합니다.</p>
+      </div>
+      <div className="justify-content-center mt-2">
+        <Breadcrumb className="breadcrumb">
+          <Breadcrumb.Item className="breadcrumb-item tx-15" href="#!">
+            메인메뉴
+          </Breadcrumb.Item>
+          <Breadcrumb.Item
+            className="breadcrumb-item "
+            active
+            aria-current="page"
+          >
+            이슈 관리
+          </Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
+    </div>
+    {/* <!-- /breadcrumb --> */}
+      {/* <div className="breadcrumb-header justify-content-between mb-3">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">이슈 관리</span>
           <p className="text-muted" style={{ fontSize: 14 }}>테스트 활동 중 발견된 이슈를 관리하고 해결 상태를 추적합니다.</p>
@@ -203,7 +225,7 @@ const IssueDashboard = () => {
         <div className="justify-content-center mt-2">
           <Button variant="primary">+ 새 이슈 등록</Button>
         </div>
-      </div>
+      </div> */}
       {/* 요약 카드 */}
       <Row className="mb-4 g-3">
         {summaryData.map((item, idx) => (
