@@ -102,6 +102,56 @@ const statusColor = {
   '스킵': 'secondary',
 };
 
+// 카드 컴포넌트 추출
+const StatusCard = ({ title, platformIcon, version, status }) => (
+  <Card style={{ borderRadius: 16, border: '1px solid #f1f3f5', minHeight: 200 }}>
+    <Card.Body style={{ padding: 24 }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
+        <span style={{ fontWeight: 600, fontSize: 20 }}>{title}</span>
+        <span style={{ marginLeft: 'auto', color: '#222', fontSize: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <i className={platformIcon} style={{ fontSize: 20, marginRight: 2 }} /> {version}
+        </span>
+      </div>
+      <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
+        <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
+          <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>테스트케이스</div>
+          <div style={{ fontWeight: 700, fontSize: 26 }}>{status.total}</div>
+        </div>
+        <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
+          <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>통과</div>
+          <div style={{ fontWeight: 700, fontSize: 26, color: '#22c55e' }}>{status.pass}</div>
+        </div>
+        <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
+          <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>실패</div>
+          <div style={{ fontWeight: 700, fontSize: 26, color: '#ef4444' }}>{status.fail}</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 2 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
+            <div style={{ color: '#888', fontSize: 15 }}>테스트 커버리지</div>
+            <div style={{ fontWeight: 700, fontSize: 15, marginLeft: 4 }}>{status.coverage}%</div>
+          </div>
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
+            <div style={{ color: '#888', fontSize: 15 }}>주요 버그</div>
+            <div style={{ fontWeight: 700, fontSize: 15, marginLeft: 4 }}>{status.critical}</div>
+          </div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ flex: 1, height: 8, background: '#e5e7eb', borderRadius: 4, position: 'relative' }}>
+          <div style={{ width: `${status.coverage}%`, height: 8, background: '#3b82f6', borderRadius: 4, position: 'absolute', left: 0, top: 0 }} />
+        </div>
+        <div style={{ flex: 1, height: 8, background: '#e5e7eb', borderRadius: 4, position: 'relative' }}>
+          <div style={{ width: `${Math.min(status.critical * 10, 100)}%`, height: 8, background: '#ef4444', borderRadius: 4, position: 'absolute', left: 0, top: 0 }} />
+        </div>
+      </div>
+    </Card.Body>
+  </Card>
+);
+
 const MobileAppDashboard = () => (
   <div>
     <Seo title="모바일 앱 프로젝트 대시보드" />
@@ -147,110 +197,10 @@ const MobileAppDashboard = () => (
     {/* iOS/Android 현황 */}
     <Row className="mb-3 g-3">
       <Col md={6}>
-        <Card style={{ borderRadius: 16, border: '1px solid #f1f3f5', minHeight: 200 }}>
-          <Card.Body style={{ padding: 24 }}>
-            {/* 상단: 타이틀 + 우측 플랫폼/버전 */}
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
-              <span style={{ fontWeight: 600, fontSize: 20 }}>iOS 테스트 현황</span>
-              <span style={{ marginLeft: 'auto', color: '#222', fontSize: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <i className="fab fa-apple" style={{ fontSize: 20, marginRight: 2 }} /> iOS 15.0+
-              </span>
-            </div>
-            {/* 3분할 박스 */}
-            <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
-              <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
-                <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>테스트케이스</div>
-                <div style={{ fontWeight: 700, fontSize: 26 }}>{iosStatus.total}</div>
-              </div>
-              <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
-                <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>통과</div>
-                <div style={{ fontWeight: 700, fontSize: 26, color: '#22c55e' }}>{iosStatus.pass}</div>
-              </div>
-              <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
-                <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>실패</div>
-                <div style={{ fontWeight: 700, fontSize: 26, color: '#ef4444' }}>{iosStatus.fail}</div>
-              </div>
-            </div>
-            {/* 하단: 커버리지/주요버그 바 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 2 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
-                  <div style={{ color: '#888', fontSize: 15 }}>테스트 커버리지</div>
-                  <div style={{ fontWeight: 700, fontSize: 15, marginLeft: 4 }}>{iosStatus.coverage}%</div>
-                </div>
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
-                  <div style={{ color: '#888', fontSize: 15 }}>주요 버그</div>
-                  <div style={{ fontWeight: 700, fontSize: 15, marginLeft: 4 }}>{iosStatus.critical}</div>
-                </div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              {/* 커버리지 바 */}
-              <div style={{ flex: 1, height: 8, background: '#e5e7eb', borderRadius: 4, position: 'relative' }}>
-                <div style={{ width: `${iosStatus.coverage}%`, height: 8, background: '#3b82f6', borderRadius: 4, position: 'absolute', left: 0, top: 0 }} />
-              </div>
-              {/* 주요 버그 바 */}
-              <div style={{ flex: 1, height: 8, background: '#e5e7eb', borderRadius: 4, position: 'relative' }}>
-                <div style={{ width: `${Math.min(iosStatus.critical * 10, 100)}%`, height: 8, background: '#ef4444', borderRadius: 4, position: 'absolute', left: 0, top: 0 }} />
-              </div>
-            </div>
-          </Card.Body>
-        </Card>
+        <StatusCard title="iOS 테스트 현황" platformIcon="fab fa-apple" version="iOS 15.0+" status={iosStatus} />
       </Col>
       <Col md={6}>
-        <Card style={{ borderRadius: 16, border: '1px solid #f1f3f5', minHeight: 200 }}>
-          <Card.Body style={{ padding: 24 }}>
-            {/* 상단: 타이틀 + 우측 플랫폼/버전 */}
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
-              <span style={{ fontWeight: 600, fontSize: 20 }}>Android 테스트 현황</span>
-              <span style={{ marginLeft: 'auto', color: '#222', fontSize: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <i className="fab fa-android" style={{ fontSize: 20, color: '#22c55e', marginRight: 2 }} /> Android 9.0+
-              </span>
-            </div>
-            {/* 3분할 박스 */}
-            <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
-              <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
-                <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>테스트케이스</div>
-                <div style={{ fontWeight: 700, fontSize: 26 }}>{androidStatus.total}</div>
-              </div>
-              <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
-                <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>통과</div>
-                <div style={{ fontWeight: 700, fontSize: 26, color: '#22c55e' }}>{androidStatus.pass}</div>
-              </div>
-              <div style={{ flex: 1, background: '#fafbfc', borderRadius: 12, padding: '16px 0', textAlign: 'center' }}>
-                <div style={{ color: '#888', fontSize: 15, marginBottom: 6 }}>실패</div>
-                <div style={{ fontWeight: 700, fontSize: 26, color: '#ef4444' }}>{androidStatus.fail}</div>
-              </div>
-            </div>
-            {/* 하단: 커버리지/주요버그 바 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 2 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
-                  <div style={{ color: '#888', fontSize: 15 }}>테스트 커버리지</div>
-                  <div style={{ fontWeight: 700, fontSize: 15, marginLeft: 4 }}>{androidStatus.coverage}%</div>
-                </div>
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
-                  <div style={{ color: '#888', fontSize: 15 }}>주요 버그</div>
-                  <div style={{ fontWeight: 700, fontSize: 15, marginLeft: 4 }}>{androidStatus.critical}</div>
-                </div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              {/* 커버리지 바 */}
-              <div style={{ flex: 1, height: 8, background: '#e5e7eb', borderRadius: 4, position: 'relative' }}>
-                <div style={{ width: `${androidStatus.coverage}%`, height: 8, background: '#3b82f6', borderRadius: 4, position: 'absolute', left: 0, top: 0 }} />
-              </div>
-              {/* 주요 버그 바 */}
-              <div style={{ flex: 1, height: 8, background: '#e5e7eb', borderRadius: 4, position: 'relative' }}>
-                <div style={{ width: `${Math.min(androidStatus.critical * 10, 100)}%`, height: 8, background: '#ef4444', borderRadius: 4, position: 'absolute', left: 0, top: 0 }} />
-              </div>
-            </div>
-          </Card.Body>
-        </Card>
+        <StatusCard title="Android 테스트 현황" platformIcon="fab fa-android" version="Android 9.0+" status={androidStatus} />
       </Col>
     </Row>
     {/* 차트 2종 */}
@@ -323,10 +273,10 @@ const MobileAppDashboard = () => (
           padding: 25, marginBottom: 16, boxShadow: '0 1px 4px 0 rgba(0,0,0,0.03)'
         }}>
           <div style={{
-            width: 44, height: 44, borderRadius: '50%', background: '#fee2e2',
+            width: 44, height: 44, borderRadius: '50%', background: issue.iconBg,
             display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 18
           }}>
-            <i className="fa fa-exclamation-circle" style={{ color: '#ef4444', fontSize: 22 }} />
+            <i className={`fa ${issue.icon}`} style={{ color: issue.iconColor, fontSize: 22 }} />
           </div>
           <div style={{ flex: 1, marginLeft: 10 }}>
             <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 2, display: 'flex', alignItems: 'center' }}>

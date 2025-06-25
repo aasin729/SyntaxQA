@@ -20,35 +20,35 @@ export const MENUITEMS = [
           active:false,
           children: [
             {
-              path: `/components/mainmenu/dashboard`,
+              path: `/mainmenu/dashboard`,
               type: "link",
               active:false,
               selected:false,
               title: "대시보드",
             },
             {
-              path: `/components/mainmenu/testcase`,
+              path: `/mainmenu/testcase`,
               type: "link",
               active:false,
               selected:false,
               title: "테스트케이스",
             },
             {
-              path: `/components/mainmenu/runatest`,
+              path: `/mainmenu/runatest`,
               type: "link",
               active:false,
               selected:false,
               title: "테스트 실행",
             },
             {
-              path: `/components/mainmenu/IssueManage`,
+              path: `/mainmenu/IssueManage`,
               type: "link",
               active:false,
               selected:false,
               title: "이슈 관리",
             },
             {
-              path: `/components/mainmenu/reports`,
+              path: `/mainmenu/reports`,
               type: "link",
               active:false,
               selected:false,
@@ -87,21 +87,21 @@ export const MENUITEMS = [
           active:false,
           children: [
             {
-              path: `/components/project/mobileapp`,
+              path: `/project/mobileapp`,
               type: "link",
               active:false,
               selected:false,
               title: "모바일 앱",
             },
             {
-              path: `/components/project/webservice`,
+              path: `/project/webservice`,
               type: "link",
               active:false,
               selected:false,
               title: "웹 서비스",
             },
             {
-              path: `/components/project/backoffice`,
+              path: `/project/backoffice`,
               type: "link",
               active:false,
               selected:false,
@@ -736,14 +736,14 @@ export const MENUITEMS = [
           active:false,
           children: [
             {
-              path: `/components/settings/teamManage`,
+              path: `/settings/teamManage`,
               title: "팀 관리",
               type: "link",
               active:false,
               selected:false,
             },
             {
-              path: `/components/settings/environment`,
+              path: `/settings/environment`,
               title: "환경 설정",
               type: "link",
               active:false,

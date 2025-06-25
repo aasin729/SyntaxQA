@@ -5,6 +5,19 @@ import Seo from "@/shared/layout-components/seo/seo";
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
+// TopCard 컴포넌트 추출
+const TopCard = ({ icon, color, bg, label, value }) => (
+  <div style={{ background: '#fff', borderRadius: 16, boxShadow: '0 2px 8px 0 rgba(0,0,0,0.04)', padding: '24px 20px', border: '1px solid #f1f3f5', minHeight: 90, display: 'flex', alignItems: 'center', gap: 18 }}>
+    <div style={{ width: 44, height: 44, borderRadius: '50%', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 10 }}>
+      <i className={`fa ${icon}`} style={{ color, fontSize: 22 }} />
+    </div>
+    <div>
+      <div style={{ fontSize: 15, color: '#888', fontWeight: 500 }}>{label}</div>
+      <div style={{ fontSize: 26, fontWeight: 700 }}>{value}</div>
+    </div>
+  </div>
+);
+
 // 상단 카드 데이터 (웹 서비스 기준)
 const topCards = [
   { label: '웹 테스트케이스', value: 214, icon: 'fa-list-check', color: '#6366f1', bg: 'rgba(99,102,241,0.08)' },
@@ -128,15 +141,7 @@ const WebServiceDashboard = () => (
     <Row className="mb-3 g-3">
       {topCards.map((card, idx) => (
         <Col key={idx} md={3} sm={6} xs={12}>
-          <div style={{ background: '#fff', borderRadius: 16, boxShadow: '0 2px 8px 0 rgba(0,0,0,0.04)', padding: '24px 20px', border: '1px solid #f1f3f5', minHeight: 90, display: 'flex', alignItems: 'center', gap: 18 }}>
-            <div style={{ width: 44, height: 44, borderRadius: '50%', background: card.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 10 }}>
-              <i className={`fa ${card.icon}`} style={{ color: card.color, fontSize: 22 }} />
-            </div>
-            <div>
-              <div style={{ fontSize: 15, color: '#888', fontWeight: 500 }}>{card.label}</div>
-              <div style={{ fontSize: 26, fontWeight: 700 }}>{card.value}</div>
-            </div>
-          </div>
+          <TopCard {...card} />
         </Col>
       ))}
     </Row>
@@ -150,7 +155,7 @@ const WebServiceDashboard = () => (
               <span style={{ marginLeft: 'auto', color: '#888', fontSize: 14 }}>최근 업데이트: 2025-06-19</span>
             </div>
             <div style={{ display: 'flex', gap: 18, marginBottom: 12, marginTop: 30 }}>
-              {browserStatus.map((b, idx) => (
+              {browserStatus.map((b) => (
                 <div key={b.name} style={{ flex: 1, textAlign: 'center' }}>
                   <div>
                     <i className={b.icon} style={{ fontSize: 28, color: b.color, marginBottom: 4 }} />
@@ -179,7 +184,7 @@ const WebServiceDashboard = () => (
               <span style={{ marginLeft: 'auto', color: '#888', fontSize: 14 }}>최근 업데이트: 2025-06-19</span>
             </div>
             <Row>
-              {webPerfIndicators.map((ind, idx) => (
+              {webPerfIndicators.map((ind) => (
                 <Col key={ind.label} md={6} style={{ marginBottom: 10 }}>
                   <div style={{ fontSize: 15, color: '#888', marginBottom: 2 }}>{ind.label}</div>
                   <div style={{ fontWeight: 700, fontSize: 18, color: ind.color }}>{ind.value}</div>

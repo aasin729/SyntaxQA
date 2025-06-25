@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 import dynamic from 'next/dynamic';
-import { Breadcrumb, Card, Col, Row, Button, Form, Pagination } from "react-bootstrap";
-import Link from "next/link";
+import { Breadcrumb, Card, Col, Row, Button, Form } from "react-bootstrap";
 import Seo from "@/shared/layout-components/seo/seo";
 import { useTable, useSortBy, useGlobalFilter, usePagination, useRowSelect } from "react-table";
 
@@ -9,50 +8,10 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 // 상단 요약 카드 데이터
 const summaryData = [
-  {
-    label: "전체 이슈",
-    value: 42,
-    unit: "건",
-    diff: 12,
-    diffType: "down", // "up" or "down"
-    diffPercent: 12,
-    icon: "fa-circle-info",
-    iconBg: "rgba(99,102,241,0.12)",
-    iconColor: "#6366f1",
-  },
-  {
-    label: "미해결",
-    value: 18,
-    unit: "건",
-    diff: 5,
-    diffType: "up",
-    diffPercent: 5,
-    icon: "fa-clock",
-    iconBg: "rgba(99,102,241,0.08)",
-    iconColor: "#64748b",
-  },
-  {
-    label: "진행 중",
-    value: 15,
-    unit: "건",
-    diff: 8,
-    diffType: "up",
-    diffPercent: 8,
-    icon: "fa-rotate-right",
-    iconBg: "rgba(99,102,241,0.12)",
-    iconColor: "#60a5fa",
-  },
-  {
-    label: "해결됨",
-    value: 9,
-    unit: "건",
-    diff: 15,
-    diffType: "up",
-    diffPercent: 15,
-    icon: "fa-circle-check",
-    iconBg: "rgba(34,197,94,0.12)",
-    iconColor: "#22c55e",
-  },
+  { label: "전체 이슈", value: 42, unit: "건", diffType: "down", diffPercent: 12, icon: "fa-circle-info", iconBg: "rgba(99,102,241,0.12)", iconColor: "#6366f1" },
+  { label: "미해결", value: 18, unit: "건", diffType: "up", diffPercent: 5, icon: "fa-clock", iconBg: "rgba(99,102,241,0.08)", iconColor: "#64748b" },
+  { label: "진행 중", value: 15, unit: "건", diffType: "up", diffPercent: 8, icon: "fa-rotate-right", iconBg: "rgba(99,102,241,0.12)", iconColor: "#60a5fa" },
+  { label: "해결됨", value: 9, unit: "건", diffType: "up", diffPercent: 15, icon: "fa-circle-check", iconBg: "rgba(34,197,94,0.12)", iconColor: "#22c55e" },
 ];
 
 // 도넛 차트 (우선순위별 이슈)
@@ -68,10 +27,7 @@ const donutSeries = [12, 18, 12];
 // 라인 차트 (상태별 이슈 추이)
 const lineOptions = {
   chart: { type: 'line', height: 250, toolbar: { show: false } },
-  xaxis: {
-    categories: ['5/15', '5/22', '5/29', '6/5', '6/12'],
-    labels: { style: { fontSize: '13px', fontWeight: 500 } },
-  },
+  xaxis: { categories: ['5/15', '5/22', '5/29', '6/5', '6/12'], labels: { style: { fontSize: '13px', fontWeight: 500 } } },
   colors: ['#60a5fa', '#22c55e', '#ef4444'],
   legend: { position: 'bottom', fontSize: '13px', fontWeight: 500, markers: { radius: 8 } },
   stroke: { width: 3, curve: 'smooth' },
@@ -92,13 +48,7 @@ const COLUMNS = [
   { Header: '담당자', accessor: 'owner', className: 'text-center' },
   { Header: '발생일', accessor: 'created', className: 'text-center' },
   { Header: '해결기한', accessor: 'deadline', className: 'text-center' },
-  {
-    Header: '관리',
-    accessor: 'actions',
-    className: 'text-center',
-    disableSortBy: true,
-    disableFilters: true,
-  },
+  { Header: '관리', accessor: 'actions', className: 'text-center', disableSortBy: true, disableFilters: true },
 ];
 const DATATABLE = [
   { status: '미해결', title: '로그인 페이지에서 비밀번호 재설정 기능 동작하지 않음', desc: 'ISSUE-3546', priority: '높음', owner: '김지연', created: '2025-06-10', deadline: '2025-06-23', createdBy: '김지연' },
@@ -130,21 +80,17 @@ function GlobalFilter({ filter, setFilter }) {
 }
 
 const IssueDashboard = () => {
-  // 탭 상태
   const [activeTab, setActiveTab] = useState('all');
-  // 필터 상태
   const [status, setStatus] = useState('상태');
   const [priority, setPriority] = useState('우선순위');
   const [owner, setOwner] = useState('담당자');
 
-  // 탭별 카운트
   const allCount = DATATABLE.length;
   const myName = '김지연'; // 실제 로그인 유저 이름으로 교체 필요
   const assignedCount = DATATABLE.filter(row => row.owner === myName).length;
   const createdCount = DATATABLE.filter(row => row.createdBy === myName).length;
-  const recentCount = Math.min(DATATABLE.length, 5); // 최근 5개(예시)
+  const recentCount = Math.min(DATATABLE.length, 5);
 
-  // 탭별 데이터 분기
   const tabFilteredData = useMemo(() => {
     if (activeTab === 'all') return DATATABLE;
     if (activeTab === 'assigned') return DATATABLE.filter(row => row.owner === myName);
@@ -153,7 +99,6 @@ const IssueDashboard = () => {
     return DATATABLE;
   }, [activeTab]);
 
-  // react-table
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => {
     return tabFilteredData.filter(row =>
@@ -162,6 +107,7 @@ const IssueDashboard = () => {
       ((owner === '담당자' || owner === '전체') || row.owner === owner)
     );
   }, [tabFilteredData, status, priority, owner]);
+
   const tableInstance = useTable(
     { columns, data },
     useGlobalFilter,
@@ -189,43 +135,28 @@ const IssueDashboard = () => {
   const {
     getTableProps, headerGroups, getTableBodyProps, prepareRow, state, setGlobalFilter, page, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, gotoPage, pageCount, setPageSize
   } = tableInstance;
-  const { globalFilter, pageIndex, pageSize } = state;
+  const { pageIndex, pageSize } = state;
 
   return (
     <div>
       <Seo title="이슈 관리 대시보드" />
-      {/* 상단 */}
-          {/* <!-- breadcrumb --> */}
-    <div className="breadcrumb-header justify-content-between">
-      <div className="left-content">
-        <span className="main-content-title mg-b-0 mg-b-lg-1">이슈 관리</span>
-        <p>테스트 활동 중 발견된 이슈를 관리하고 해결 상태를 추적합니다.</p>
-      </div>
-      <div className="justify-content-center mt-2">
-        <Breadcrumb className="breadcrumb">
-          <Breadcrumb.Item className="breadcrumb-item tx-15" href="#!">
-            메인메뉴
-          </Breadcrumb.Item>
-          <Breadcrumb.Item
-            className="breadcrumb-item "
-            active
-            aria-current="page"
-          >
-            이슈 관리
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
-    </div>
-    {/* <!-- /breadcrumb --> */}
-      {/* <div className="breadcrumb-header justify-content-between mb-3">
+      {/* breadcrumb */}
+      <div className="breadcrumb-header justify-content-between">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">이슈 관리</span>
-          <p className="text-muted" style={{ fontSize: 14 }}>테스트 활동 중 발견된 이슈를 관리하고 해결 상태를 추적합니다.</p>
+          <p>테스트 활동 중 발견된 이슈를 관리하고 해결 상태를 추적합니다.</p>
         </div>
         <div className="justify-content-center mt-2">
-          <Button variant="primary">+ 새 이슈 등록</Button>
+          <Breadcrumb className="breadcrumb">
+            <Breadcrumb.Item className="breadcrumb-item tx-15" href="#!">
+              메인메뉴
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="breadcrumb-item " active aria-current="page">
+              이슈 관리
+            </Breadcrumb.Item>
+          </Breadcrumb>
         </div>
-      </div> */}
+      </div>
       {/* 요약 카드 */}
       <Row className="mb-4 g-3">
         {summaryData.map((item, idx) => (
@@ -241,7 +172,6 @@ const IssueDashboard = () => {
                 border: "1px solid #f1f3f5",
               }}
             >
-              {/* 아이콘 */}
               <div
                 style={{
                   position: "absolute",
@@ -258,14 +188,11 @@ const IssueDashboard = () => {
               >
                 <i className={`fa ${item.icon}`} style={{ color: item.iconColor, fontSize: 20 }} />
               </div>
-              {/* 라벨 */}
               <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>{item.label}</div>
-              {/* 수치/단위 */}
               <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
                 <span style={{ fontSize: 28, fontWeight: 700 }}>{item.value}</span>
                 <span style={{ fontSize: 15, color: "#888" }}>{item.unit}</span>
               </div>
-              {/* 증감 */}
               <div style={{ fontSize: 13, marginTop: 4, color: item.diffType === "up" ? "#22c55e" : "#ef4444", fontWeight: 500 }}>
                 {item.diffType === "up" ? "↑" : "↓"} {item.diffPercent}%
                 <span style={{ color: "#888", fontWeight: 400, marginLeft: 4 }}>지난 주 대비</span>
@@ -293,7 +220,7 @@ const IssueDashboard = () => {
           </Card>
         </Col>
       </Row>
-      {/* 탭 바 (차트 밑, 필터 위) */}
+      {/* 탭 바 */}
       <div
         className="issue-tab-bar"
         style={{
@@ -384,14 +311,12 @@ const IssueDashboard = () => {
                   prepareRow(row);
                   return (
                     <tr key={row.id} {...row.getRowProps()} className="text-center">
-                      {row.cells.map((cell, idx) => {
-                        // 담당자 avatar-circle 스타일 제거, 이름만 출력
+                      {row.cells.map((cell) => {
                         if (cell.column.id === 'owner') {
                           return (
                             <td key={cell.column.id} {...cell.getCellProps()}>{cell.value}</td>
                           );
                         }
-                        // 상태 컬러 뱃지 스타일 적용
                         if (cell.column.id === 'status') {
                           let badgeClass = '';
                           if (cell.value === '미해결') badgeClass = 'bg-danger';
@@ -404,7 +329,6 @@ const IssueDashboard = () => {
                             </td>
                           );
                         }
-                        // 우선순위 컬러 뱃지 스타일 적용
                         if (cell.column.id === 'priority') {
                           let badgeClass = '';
                           if (cell.value === '높음') badgeClass = 'bg-danger';
@@ -417,7 +341,6 @@ const IssueDashboard = () => {
                             </td>
                           );
                         }
-                        // 해결기한: 오늘 날짜와 같으면 빨간색
                         if (cell.column.id === 'deadline') {
                           const today = new Date();
                           const yyyy = today.getFullYear();
@@ -431,7 +354,6 @@ const IssueDashboard = () => {
                             </td>
                           );
                         }
-                        // 관리(액션) 버튼 스타일 적용
                         if (cell.column.id === 'actions') {
                           return (
                             <td key={cell.column.id} {...cell.getCellProps()}>
@@ -446,7 +368,6 @@ const IssueDashboard = () => {
                             </td>
                           );
                         }
-                        // 기본 렌더링
                         return (
                           <td key={cell.column.id} {...cell.getCellProps()}>{cell.render("Cell")}</td>
                         );
@@ -458,7 +379,6 @@ const IssueDashboard = () => {
             </table>
             {/* 페이지네이션 */}
             <div className="d-flex flex-wrap align-items-center justify-content-between mt-4 gap-2">
-              {/* 왼쪽: 페이지 정보 + 선택한 항목 */}
               <div className="d-flex align-items-center gap-2">
                 <span style={{ fontSize: 14, color: "#888" }}>
                   Page <strong>{pageIndex + 1} of {pageOptions.length}</strong>
@@ -469,7 +389,6 @@ const IssueDashboard = () => {
                   <option>엑셀 다운로드</option>
                 </Form.Select>
               </div>
-              {/* 오른쪽: 페이지 사이즈 + 페이지네이션 (기존 커스텀 버튼) */}
               <div className="d-flex align-items-center gap-2 ms-auto">
                 <Form.Select
                   className="w-auto"
@@ -480,42 +399,12 @@ const IssueDashboard = () => {
                   {[5, 10, 15].map(size => <option key={size} value={size}>페이지 {size}</option>)}
                 </Form.Select>
                 <span>
-                  <Button
-                    variant=""
-                    className="btn-default tablebutton me-2 d-sm-inline d-block my-1"
-                    onClick={() => gotoPage(0)}
-                    disabled={!canPreviousPage}
-                  >{' Previous '}</Button>
-                  <Button
-                    variant=""
-                    className="btn-default tablebutton me-2 my-1"
-                    onClick={() => previousPage()}
-                    disabled={!canPreviousPage}
-                  >{' << '}</Button>
-                  <Button
-                    variant=""
-                    className="btn-default tablebutton me-2 my-1"
-                    onClick={() => previousPage()}
-                    disabled={!canPreviousPage}
-                  >{' < '}</Button>
-                  <Button
-                    variant=""
-                    className="btn-default tablebutton me-2 my-1"
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                  >{' > '}</Button>
-                  <Button
-                    variant=""
-                    className="btn-default tablebutton me-2 my-1"
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                  >{' >> '}</Button>
-                  <Button
-                    variant=""
-                    className="btn-default tablebutton me-2 d-sm-inline d-block my-1"
-                    onClick={() => gotoPage(pageCount - 1)}
-                    disabled={!canNextPage}
-                  >{' Next '}</Button>
+                  <Button variant="" className="btn-default tablebutton me-2 d-sm-inline d-block my-1" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>{' Previous '}</Button>
+                  <Button variant="" className="btn-default tablebutton me-2 my-1" onClick={() => previousPage()} disabled={!canPreviousPage}>{' << '}</Button>
+                  <Button variant="" className="btn-default tablebutton me-2 my-1" onClick={() => previousPage()} disabled={!canPreviousPage}>{' < '}</Button>
+                  <Button variant="" className="btn-default tablebutton me-2 my-1" onClick={() => nextPage()} disabled={!canNextPage}>{' > '}</Button>
+                  <Button variant="" className="btn-default tablebutton me-2 my-1" onClick={() => nextPage()} disabled={!canNextPage}>{' >> '}</Button>
+                  <Button variant="" className="btn-default tablebutton me-2 d-sm-inline d-block my-1" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{' Next '}</Button>
                 </span>
               </div>
             </div>
