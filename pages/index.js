@@ -32,7 +32,7 @@ export default function Home() {
   }
   let navigate = useRouter(); 
   const routeChange = () =>{ 
-    let path = `/components/dashboards/dashboard1`; 
+    let path = `/mainmenu/dashboard`; 
     navigate.push(path);
   }
 

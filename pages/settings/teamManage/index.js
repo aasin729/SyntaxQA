@@ -120,8 +120,8 @@ const TeamManage = () => {
       <Seo title={"팀 관리"} />
       {/* 상단 설명 */}
       <div className="mb-3">
-        <div className="main-content-title mg-b-0 mg-b-lg-1 fs-20 fw-bold">팀 관리</div>
-        <div className="text-muted mt-1">팀 구성원을 관리하고 권한을 설정할 수 있습니다.</div>
+        <div className="main-content-title fs-20 fw-bold">팀 관리</div>
+        <div className="text-muted fs-14 mt-1">팀 구성원을 관리하고 권한을 설정할 수 있습니다.</div>
       </div>
 
       {/* 팀 정보 카드 */}
@@ -130,13 +130,13 @@ const TeamManage = () => {
           <Row className="align-items-center">
             <Col md={8}>
               <div className="fw-bold fs-16 mb-1">{teamInfo.name}</div>
-              <div className="text-muted mb-1">{teamInfo.description}</div>
-              <div className="small text-muted">생성일: {teamInfo.created} &nbsp; | &nbsp; 구성원: {teamInfo.members}명</div>
+              <div className="text-muted fs-14 mb-1">{teamInfo.description}</div>
+              <div className="small text-muted fs-13">생성일: {teamInfo.created} &nbsp; | &nbsp; 구성원: {teamInfo.members}명</div>
             </Col>
             <Col md={4} className="text-md-end mt-3 mt-md-0">
-              <Button variant="outline-secondary" className="me-2">팀 정보 수정</Button>
-              <Button variant="outline-secondary">팀 설정</Button>
-              <Button variant="outline-secondary" className="m-2"><AddIcon className="me-1" /> 팀원 추가</Button>
+              <Button variant="outline-secondary" className="me-2 fs-14">팀 정보 수정</Button>
+              <Button variant="outline-secondary" className="fs-14">팀 설정</Button>
+              <Button variant="outline-secondary" className="m-2 fs-14"><AddIcon className="me-1" /> 팀원 추가</Button>
             </Col>
           </Row>
         </Card.Body>
@@ -148,11 +148,11 @@ const TeamManage = () => {
           <Row className="align-items-center mb-3 filter-row">
             <Col md={2}>
               <InputGroup>
-                <Form.Control placeholder="팀원 검색" value={search} onChange={e => setSearch(e.target.value)} />
+                <Form.Control placeholder="팀원 검색" value={search} onChange={e => setSearch(e.target.value)} className="fs-14" />
               </InputGroup>
             </Col>
             <Col md={1}>
-              <Form.Select value={status} onChange={e => setStatus(e.target.value)}>
+              <Form.Select value={status} onChange={e => setStatus(e.target.value)} className="fs-14">
                 <option value="">상태</option>
                 <option value="활성">활성</option>
                 <option value="비활성">비활성</option>
@@ -160,7 +160,7 @@ const TeamManage = () => {
               </Form.Select>
             </Col>
             <Col md={1}>
-              <Form.Select value={level} onChange={e => setLevel(e.target.value)}>
+              <Form.Select value={level} onChange={e => setLevel(e.target.value)} className="fs-14">
                 <option value="">권한</option>
                 <option value="관리자">관리자</option>
                 <option value="매니저">매니저</option>
@@ -170,7 +170,7 @@ const TeamManage = () => {
             </Col>
             <Col md={{ span: 3, offset: 5 }} className="d-flex justify-content-end">
               <Dropdown onSelect={setSort} className="me-2" style={{ minWidth: 120 }}>
-                <Dropdown.Toggle className="w-100" id="dropdown-sort">
+                <Dropdown.Toggle className="w-100 fs-14" id="dropdown-sort">
                   정렬: {sort} <ArrowDropDownIcon fontSize="small" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -179,7 +179,7 @@ const TeamManage = () => {
                   <Dropdown.Item eventKey="권한순">권한순</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <Button>
+              <Button className="fs-14">
                 <FilterListIcon fontSize="small" /> 필터
               </Button>
             </Col>
@@ -191,8 +191,8 @@ const TeamManage = () => {
       <Card>
         <Card.Body className="p-0">
           <div className="table-responsive">
-            <Table hover bordered className="text-nowrap mb-0 align-middle text-center">
-              <thead className="bg-light">
+            <Table hover bordered className="text-nowrap mb-0 align-middle text-center fs-15">
+              <thead className="bg-light fs-14">
                 <tr>
                   <th style={{ width: 40 }}>
                     <input type="checkbox" checked={allChecked} onChange={handleSelectAll} />
@@ -207,25 +207,25 @@ const TeamManage = () => {
               </thead>
               <tbody>
                 {pagedRows.map((member, idx) => (
-                  <tr key={member.id}>
+                  <tr key={member.id} className="fs-14">
                     <td>
                       <input type="checkbox" checked={selected.includes(member.id)} onChange={() => handleSelectRow(member.id)} />
                     </td>
                     <td>
-                      <div className="fw-semibold">{member.name}</div>
-                      <div className="text-muted small">{member.email}</div>
+                      <div className="fw-semibold fs-15">{member.name}</div>
+                      <div className="text-muted fs-13">{member.email}</div>
                     </td>
-                    <td>{member.role}</td>
+                    <td className="fs-14">{member.role}</td>
                     <td>
-                      <span className={`badge rounded-pill bg-${member.levelColor} px-3 py-2`}>{member.level}</span>
+                      <span className={`badge rounded-pill bg-${member.levelColor} px-3 py-2 fs-13`}>{member.level}</span>
                     </td>
                     <td>
-                      <span className={`badge rounded-pill bg-${member.statusColor} px-3 py-2`}>{member.status}</span>
+                      <span className={`badge rounded-pill bg-${member.statusColor} px-3 py-2 fs-13`}>{member.status}</span>
                     </td>
-                    <td>{member.lastLogin}</td>
+                    <td className="fs-13">{member.lastLogin}</td>
                     <td>
-                      <Button variant="link" size="sm"><EditIcon fontSize="small" /></Button>
-                      <Button variant="link" size="sm"><DeleteIcon fontSize="small" /></Button>
+                      <Button variant="link" size="sm" className="fs-14"><EditIcon fontSize="small" /></Button>
+                      <Button variant="link" size="sm" className="fs-14"><DeleteIcon fontSize="small" /></Button>
                     </td>
                   </tr>
                 ))}
@@ -234,14 +234,14 @@ const TeamManage = () => {
           </div>
           {/* 하단 선택/페이지네이션 */}
           <div className="d-flex justify-content-between align-items-center p-3">
-            <Form.Select style={{width:180}}>
+            <Form.Select style={{width:180}} className="fs-14">
               <option>선택한 항목</option>
               <option>권한 변경</option>
               <option>상태 변경</option>
               <option>삭제</option>
             </Form.Select>
             <div className="d-flex align-items-center gap-2">
-              <Pagination className="mb-0">
+              <Pagination className="mb-0 fs-14">
                 <Pagination.First onClick={() => setPageIndex(0)} disabled={pageIndex === 0} />
                 <Pagination.Prev onClick={() => setPageIndex(p => Math.max(p-1, 0))} disabled={pageIndex === 0} />
                 {Array.from({ length: pageCount }, (_, i) => (
@@ -262,8 +262,8 @@ const TeamManage = () => {
         <Card.Body>
           <div className="fw-bold fs-18 mb-3">팀 권한 설정</div>
           <div className="mb-3 d-flex justify-content-between align-items-center">
-            <span className="fw-semibold">권한 그룹</span>
-            <Button variant="link" className="p-0 text-primary fw-semibold">+ 권한 그룹 추가</Button>
+            <span className="fw-semibold fs-15">권한 그룹</span>
+            <Button variant="link" className="p-0 text-primary fw-semibold fs-14">+ 권한 그룹 추가</Button>
           </div>
           {/* 권한 그룹 목록 */}
           <div className="mb-4">
@@ -278,8 +278,8 @@ const TeamManage = () => {
           </div>
           {/* 하단 저장/취소 버튼 */}
           <div className="d-flex justify-content-end gap-2">
-            <Button variant="outline-secondary">취소</Button>
-            <Button variant="primary">변경사항 저장</Button>
+            <Button variant="outline-secondary" className="fs-14">취소</Button>
+            <Button variant="primary" className="fs-14">변경사항 저장</Button>
           </div>
         </Card.Body>
       </Card>

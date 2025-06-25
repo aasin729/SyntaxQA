@@ -5,6 +5,7 @@ import Landingpagelayout from '../shared/layout-components/layout/landingpage-la
 import Switcherlayout from '../shared/layout-components/layout/switcher-layout'
 import Authenticationlayout from '../shared/layout-components/layout/authentication-layout'
 import SSRProvider from 'react-bootstrap/SSRProvider';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 
 const layouts = {
@@ -15,11 +16,21 @@ const layouts = {
 };
 function MyApp({ Component, pageProps }) {
   const Layout = layouts[Component.layout] || ((pageProps) => <Component>{pageProps}</Component>);
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#38cab3', // 템플릿 메인 컬러
+        contrastText: '#fff',
+      },
+    },
+  });
   return (
     <Layout>
-      <SSRProvider>
-      <Component {...pageProps} />
-      </SSRProvider>
+      <ThemeProvider theme={theme}>
+        <SSRProvider>
+          <Component {...pageProps} />
+        </SSRProvider>
+      </ThemeProvider>
     </Layout>
   )
 }

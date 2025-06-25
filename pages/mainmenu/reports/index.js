@@ -1,15 +1,7 @@
 import React from "react";
 import { Breadcrumb,Card, Col, Row } from "react-bootstrap";
-import GmailTreeView from "../../../shared/data/app/treeviewdata.js";
-import TreeView from '@mui/lab/TreeView'; 
 
 //Matterial ICONS
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import TreeItem from '@mui/lab/TreeItem';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import Seo from "@/shared/layout-components/seo/seo";
 
 const Treeview = () => (
@@ -40,32 +32,7 @@ const Treeview = () => (
 
     {/* <!-- row --> */}
     <Row>
-      <Col lg={6}>
-        <Card>
-          <Card.Header>
-            <h4 className="card-title">테스트 카테고리</h4>
-          </Card.Header>
-          <Card.Body>
-            <GmailTreeView />
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col lg={6}>
-        <Card>
-          <Card.Header>
-            <h4 className="card-title">리포트 요약</h4>
-          </Card.Header>
-          <Card.Body>
-            <div className="p-3">
-              <h5>테스트 실행 결과</h5>
-              <p>총 테스트케이스: 248개</p>
-              <p>통과: 186개 (75%)</p>
-              <p>실패: 32개 (13%)</p>
-              <p>스킵: 30개 (12%)</p>
-            </div>
-          </Card.Body>
-        </Card>
-      </Col>
+     <h1>리포트 페이지</h1>
     </Row>
     {/* <!-- row --> */}
   </div>
