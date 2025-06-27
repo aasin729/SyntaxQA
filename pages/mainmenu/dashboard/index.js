@@ -80,7 +80,7 @@ const DATATABLE = [
     feature: "결제 시스템",
     owner: "송지은",
     ownerInitial: "SJ",
-    ownerColor: "#a78bfa", // 보라
+    ownerColor: "#a78bfa", 
     date: "2025-06-18",
     priority: "높음"
   },
@@ -90,7 +90,7 @@ const DATATABLE = [
     feature: "상품 관리",
     owner: "민지훈",
     ownerInitial: "MJ",
-    ownerColor: "#22c55e", // 초록
+    ownerColor: "#22c55e", 
     date: "2025-06-16",
     priority: "중간"
   },
@@ -100,7 +100,7 @@ const DATATABLE = [
     feature: "인증 시스템",
     owner: "김태영",
     ownerInitial: "KT",
-    ownerColor: "#f59e0b", // 주황
+    ownerColor: "#f59e0b", 
     date: "2025-06-15",
     priority: "높음"
   },
@@ -110,7 +110,7 @@ const DATATABLE = [
     feature: "알림 시스템",
     owner: "박서연",
     ownerInitial: "PS",
-    ownerColor: "#ec4899", // 분홍
+    ownerColor: "#ec4899", 
     date: "2025-06-14",
     priority: "중간"
   }

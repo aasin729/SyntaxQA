@@ -298,5 +298,4 @@ const WebServiceDashboard = () => (
 
 export default WebServiceDashboard;
 
-// 레이아웃(헤더, 사이드바 등) 적용
 WebServiceDashboard.layout = "Contentlayout"; 

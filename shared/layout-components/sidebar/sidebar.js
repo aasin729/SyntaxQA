@@ -109,65 +109,13 @@ const Sidebar = () => {
     }
   }
   function toggleSidemenu(item) {
-    
-      if (
-        !document.body.classList.contains("horizontalmenu-hover") ||
-        window.innerWidth < 992
-      )
-  {
-      // To show/hide the menu
-      if (!item.active) {
-        menuitems.filter(mainlevel => {
-          if (mainlevel.Items) {
-            mainlevel.Items.filter(sublevel => {
-              sublevel.active = false;
-              if (item === sublevel) {
-                sublevel.active = true;
-              }
-              if (sublevel.children) {
-                sublevel.children.filter(sublevel1 => {
-                  sublevel1.active = false;
-                  if (item === sublevel1) {
-                    sublevel.active = true;
-                    sublevel1.active = true;
-                  }
-                  if (sublevel1.children) {
-                    sublevel1.children.filter(sublevel2 => {
-                      sublevel2.active = false;
-                      if (item === sublevel2) {
-                        sublevel.active = true;
-                        sublevel1.active = true;
-                        sublevel2.active = true;
-                      }
-                      if (sublevel2.children) {
-                        sublevel2.children.filter(sublevel3 => {
-                          sublevel3.active = false;
-                          if (item === sublevel3) {
-                            sublevel.active = true;
-                            sublevel1.active = true;
-                            sublevel2.active = true;
-                            sublevel3.active = true;
-                          }
-                          return sublevel2;
-                        })
-                      }
-                      return sublevel2;
-                    })
-                  }
-                  return sublevel1;
-                })
-              }
-              return sublevel;
-            })
-          }
-          return mainlevel;
-        })
-      }
-      else {
-        item.active = !item.active;
-      }
+    if (
+      !document.body.classList.contains("horizontalmenu-hover") ||
+      window.innerWidth < 992
+    ) {
+      // 클릭한 메뉴만 active 토글
+      item.active = !item.active;
     }
-
     setMenuitems(arr => [...arr]);
   }
   function clearMenuActive() {

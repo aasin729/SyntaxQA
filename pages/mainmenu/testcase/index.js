@@ -4,9 +4,6 @@ import { Breadcrumb, Button, Card, Col, Row } from "react-bootstrap";
 import Link from "next/link";
 import { useTable, useSortBy, useGlobalFilter, usePagination } from 'react-table';
 
-// =====================
-// 테스트케이스 테이블 데이터 예시
-// =====================
 const DATATABLE = [
   {
     status: <span className="badge bg-success">통과</span>,

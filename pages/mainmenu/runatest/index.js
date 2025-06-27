@@ -10,6 +10,25 @@ import {
   ListGroup,
   Table,
 } from "react-bootstrap";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 // 테스트케이스 목록
 const testCases = [
@@ -91,23 +110,86 @@ const statsData = {
   skip: [2, 1, 1, 0, 1, 0, 1],
 };
 
-const BarChart = () => (
-  <div style={{ height: 180, display: "flex", alignItems: "flex-end", gap: 8, position: "relative" }}>
-    {statsData.labels.map((label, idx) => (
-      <div key={label} style={{ flex: 1, textAlign: "center" }}>
-        <div style={{ height: statsData.success[idx] * 2, background: "#38cab3", marginBottom: 2 }} />
-        <div style={{ height: statsData.fail[idx] * 2, background: "#f66", marginBottom: 2 }} />
-        <div style={{ height: statsData.skip[idx] * 2, background: "#ccc", marginBottom: 2 }} />
-        <div style={{ fontSize: 12 }}>{label}</div>
-      </div>
-    ))}
-    <div style={{ position: "absolute", right: 10, top: 0, fontSize: 12 }}>
-      <span style={{ color: "#38cab3" }}>■</span> 성공 &nbsp;
-      <span style={{ color: "#f66" }}>■</span> 실패 &nbsp;
-      <span style={{ color: "#ccc" }}>■</span> 건너뜀
+const BarChart = () => {
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          usePointStyle: true,
+          padding: 20,
+          font: {
+            size: 12
+          }
+        }
+      },
+      title: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)',
+        },
+        ticks: {
+          font: {
+            size: 11
+          }
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            size: 11
+          }
+        }
+      }
+    },
+  };
+
+  const data = {
+    labels: statsData.labels,
+    datasets: [
+      {
+        label: '성공',
+        data: statsData.success,
+        backgroundColor: '#38cab3',
+        borderColor: '#38cab3',
+        borderWidth: 0,
+        borderRadius: 4,
+      },
+      {
+        label: '실패',
+        data: statsData.fail,
+        backgroundColor: '#f66',
+        borderColor: '#f66',
+        borderWidth: 0,
+        borderRadius: 4,
+      },
+      {
+        label: '건너뜀',
+        data: statsData.skip,
+        backgroundColor: '#ccc',
+        borderColor: '#ccc',
+        borderWidth: 0,
+        borderRadius: 4,
+      },
+    ],
+  };
+
+  return (
+    <div style={{ height: 250 }}>
+      <Bar options={options} data={data} />
     </div>
-  </div>
-);
+  );
+};
 
 const RunATestPage = () => {
   const [selectedCases, setSelectedCases] = useState([]);
@@ -137,7 +219,6 @@ const RunATestPage = () => {
           </Breadcrumb>
         </div>
       </div>
-
       <Row>
         {/* 좌측 영역 */}
         <Col xl={8} lg={7}>
@@ -156,41 +237,45 @@ const RunATestPage = () => {
               <Table hover responsive className="align-middle">
                 <thead>
                   <tr>
-                    <th style={{ width: 48, textAlign: "center" }}>
-                      <Form.Check
-                        type="checkbox"
-                        checked={selectedCases.length === testCases.length}
-                        onChange={(e) =>
-                          setSelectedCases(
-                            e.target.checked ? testCases.map((t) => t.id) : []
-                          )
-                        }
-                      />
+                    <th style={{ width: 50, textAlign: "center", verticalAlign: "middle" }}>
+                      <div className="d-flex justify-content-center align-items-center">
+                        <Form.Check
+                          type="checkbox"
+                          checked={selectedCases.length === testCases.length}
+                          onChange={(e) =>
+                            setSelectedCases(
+                              e.target.checked ? testCases.map((t) => t.id) : []
+                            )
+                          }
+                        />
+                      </div>
                     </th>
-                    <th style={{ textAlign: "center" }}>상태</th>
-                    <th style={{ textAlign: "center" }}>테스트케이스</th>
-                    <th style={{ textAlign: "center" }}>기능</th>
-                    <th style={{ textAlign: "center" }}>담당자</th>
-                    <th style={{ textAlign: "center" }}>우선순위</th>
+                    <th style={{ textAlign: "center", verticalAlign: "middle" }}>상태</th>
+                    <th style={{ textAlign: "center", verticalAlign: "middle" }}>테스트케이스</th>
+                    <th style={{ textAlign: "center", verticalAlign: "middle" }}>기능</th>
+                    <th style={{ textAlign: "center", verticalAlign: "middle" }}>담당자</th>
+                    <th style={{ textAlign: "center", verticalAlign: "middle" }}>우선순위</th>
                   </tr>
                 </thead>
                 <tbody>
                   {testCases.map((tc) => (
                     <tr key={tc.id}>
-                      <td style={{ textAlign: "center" }}>
-                        <Form.Check
-                          type="checkbox"
-                          checked={selectedCases.includes(tc.id)}
-                          onChange={(e) =>
-                            setSelectedCases(
-                              selectedCases.includes(tc.id)
-                                ? selectedCases.filter((id) => id !== tc.id)
-                                : [...selectedCases, tc.id]
-                            )
-                          }
-                        />
+                      <td style={{ textAlign: "center", verticalAlign: "middle", width: 50 }}>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <Form.Check
+                            type="checkbox"
+                            checked={selectedCases.includes(tc.id)}
+                            onChange={(e) =>
+                              setSelectedCases(
+                                selectedCases.includes(tc.id)
+                                  ? selectedCases.filter((id) => id !== tc.id)
+                                  : [...selectedCases, tc.id]
+                              )
+                            }
+                          />
+                        </div>
                       </td>
-                      <td style={{ textAlign: "center" }}>
+                      <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                         <span
                           className={`badge bg-${tc.statusColor}`}
                           style={{ fontSize: 12 }}
@@ -198,13 +283,13 @@ const RunATestPage = () => {
                           {tc.status}
                         </span>
                       </td>
-                      <td style={{ textAlign: "center" }}>
+                      <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                         <div className="fw-bold">{tc.name}</div>
-                        <div style={{ fontSize: 13 }}>{tc.desc}</div>
+                        <div style={{ fontSize: 13, color: "#666" }}>{tc.desc}</div>
                       </td>
-                      <td style={{ textAlign: "center" }}>{tc.feature}</td>
-                      <td style={{ textAlign: "center" }}>{tc.ownerName}</td>
-                      <td style={{ textAlign: "center" }}>
+                      <td style={{ textAlign: "center", verticalAlign: "middle" }}>{tc.feature}</td>
+                      <td style={{ textAlign: "center", verticalAlign: "middle" }}>{tc.ownerName}</td>
+                      <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                         <span
                           className={`badge bg-${tc.priorityColor}`}
                           style={{ fontSize: 12 }}
@@ -343,7 +428,7 @@ const RunATestPage = () => {
   );
 };
 
-// Layout 적용 (예: Contentlayout.js)
+
 RunATestPage.layout = "Contentlayout";
 
 export default RunATestPage;
